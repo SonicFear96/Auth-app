@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 export const ProfilePage = () => {
   const [fieldsData, setFieldsData] = useState({ name: "", number: "" });
   const [contacts, setContacts] = useState([]);
-  // const [searchContact, setSearchContact] = useState(search);
+  const [searchContact, setSearchContact] = useState("");
 
   useEffect(() => {
     fetch("/getContacts")
@@ -36,35 +36,44 @@ export const ProfilePage = () => {
     console.log(`Пост №${id} удален`);
   };
 
+  const handleClick = (event) => {
+    setSearchContact(event.target.value);
+  };
+
   return (
     <div>
       <h3>Добавить контакт</h3>
       <input placeholder="имя" name="name" onChange={(e) => handleChange(e)} />
-      {/* <input
+      <input
         placeholder="номер"
         name="number"
         onChange={(e) => handleChange(e)}
-      /> */}
+      />
       <button onClick={(e) => handleSubmit(e)}>Добавить</button>
 
       <h3>Список контактов</h3>
+      <input
+        type="text"
+        placeholder="Search..."
+        value={searchContact}
+        onChange={(event) => handleClick(event)}
+      />
       {contacts.length &&
-        contacts.map((el) => {
-          return (
-            <div key={el.id}>
-              <span>
-                {el.name} - {el.number}
-              </span>
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchContact}
-                onChange={(event) => handleClick(event)}
-              />
-              <button onClick={() => handleDelete(el.id)}>delete</button>
-            </div>
-          );
-        })}
+        contacts
+          .filter((val) =>
+            val.name.toLowerCase().includes(searchContact.toLowerCase())
+          )
+          .map((el) => {
+            return (
+              <div key={el.id}>
+                <span>
+                  {el.name} - {el.number}
+                </span>
+
+                <button onClick={() => handleDelete(el.id)}>delete</button>
+              </div>
+            );
+          })}
     </div>
   );
 };
