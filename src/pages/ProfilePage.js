@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 export const ProfilePage = () => {
   const [fieldsData, setFieldsData] = useState({ name: "", number: "" });
   const [contacts, setContacts] = useState([]);
+  // const [searchContact, setSearchContact] = useState(search);
 
   useEffect(() => {
     fetch("/getContacts")
@@ -30,16 +31,21 @@ export const ProfilePage = () => {
       .catch((err) => console.log(err)); //react toast
   };
 
+  const handleDelete = (id) => {
+    setContacts(contacts.filter((el) => el.id !== id));
+    console.log(`Пост №${id} удален`);
+  };
+
   return (
     <div>
       <h3>Добавить контакт</h3>
       <input placeholder="имя" name="name" onChange={(e) => handleChange(e)} />
-      <input
+      {/* <input
         placeholder="номер"
         name="number"
         onChange={(e) => handleChange(e)}
-      />
-      <button onClick={(e) => handleSubmit(e)}>Войти</button>
+      /> */}
+      <button onClick={(e) => handleSubmit(e)}>Добавить</button>
 
       <h3>Список контактов</h3>
       {contacts.length &&
@@ -49,7 +55,13 @@ export const ProfilePage = () => {
               <span>
                 {el.name} - {el.number}
               </span>
-              <span> X</span>
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchContact}
+                onChange={(event) => handleClick(event)}
+              />
+              <button onClick={() => handleDelete(el.id)}>delete</button>
             </div>
           );
         })}
