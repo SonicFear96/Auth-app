@@ -6,10 +6,7 @@ const mock = { login: "test", password: "test" };
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const contacts = [
-  { name: "max", number: "9111", id: "123123123" },
-  { name: "bo", number: "02", id: "1239299" },
-];
+let contacts = [];
 
 app.post("/auth", (req, res) => {
   const { login, password } = req.body;
@@ -21,7 +18,7 @@ app.post("/auth", (req, res) => {
 });
 
 app.post("/add", (req, res) => {
-  const { name, number, id } = req.body;
+  const { name, number } = req.body;
   const contact = { name, number, id: Math.random() * 1000 };
   console.log(req.body);
   contacts.push(contact);
@@ -30,6 +27,12 @@ app.post("/add", (req, res) => {
 
 app.get("/getContacts", (req, res) => {
   res.json(contacts);
+});
+
+app.post("/delete", (req, res) => {
+  contacts = contacts.filter((contact) => contact.id !== req.body.id);
+  console.log(contacts);
+  res.status(200).json({ res: "ok" });
 });
 
 app.listen(PORT, () => console.log(`Server started on ${PORT}`));
