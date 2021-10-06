@@ -6,7 +6,10 @@ const mock = { login: "test", password: "test" };
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const contacts = [{ name: "max", number: "9111", id: "123123123" }];
+const contacts = [
+  { name: "max", number: "9111", id: "123123123" },
+  { name: "bo", number: "02", id: "1239299" },
+];
 
 app.post("/auth", (req, res) => {
   const { login, password } = req.body;
