@@ -13,7 +13,7 @@ import {
 export const ContactList = ({ searchContact, contacts, handleDelete }) => {
   return (
     <Box width="100%">
-      <Grid container direction="column" justifyContent="center" spacing={1}>
+      <Grid container direction="row" justifyContent="center" spacing={1}>
         {contacts.length ? (
           contacts
             .filter((val) =>
@@ -21,7 +21,7 @@ export const ContactList = ({ searchContact, contacts, handleDelete }) => {
             )
             .map((el) => {
               return (
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <Box>
                     <Paper elevation={3}>
                       <Typography color="inherit">
